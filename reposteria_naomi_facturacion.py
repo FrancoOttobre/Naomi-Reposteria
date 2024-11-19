@@ -1,13 +1,16 @@
 from tkinter import *
 import random
 import datetime
-from tkinter import filedialog, messagebox
 
+from PIL import ImageTk,Image
+
+from tkinter import filedialog, messagebox
 
 operador = ''
 precios_tortas = [35000, 28000, 25000 , 40000]
 precios_cupcakes = [800, 900 , 1000, 1100]
 precios_masas = [800 , 650 , 600 , 550 ]
+
 
 
 def click_boton(numero):
@@ -17,14 +20,6 @@ def click_boton(numero):
 def borrar():
     global operador
     operador = ''
-
-# def obtener_resultado():
-#     global operador
-#     resultado = str(eval(operador))
-#     visor_calculadora.delete(0, END)
-#     visor_calculadora.insert(0, resultado)
-#     operador = ''
-
 
 def revisar_check():
     x = 0
@@ -193,52 +188,63 @@ aplicacion.title("Repostería Artesanal Naomi - Sistema de Facturacion")
 # color de fondo de la ventana
 aplicacion.config(bg='#F6EBE7')
 
+#imagen de fondo
+image = PhotoImage(file=r"C:\Users\franc\Desktop\Archivos\Iresm\Algoritmos-y-estructura-de-datos\IEFI\fondo-definitivo.png")
+
+background_label = Label(aplicacion, image=image)
+
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
 # panel superior
-panel_superior = Frame(aplicacion, bd=1, relief=FLAT)
+panel_superior = Frame(aplicacion, bd=1, relief=FLAT,bg='#FFEFF0')
 panel_superior.pack(side=TOP)
 
 # etiqueta titulo
-etiqueta_titulo = Label(panel_superior, text='Sistema de Facturacion', fg='azure4',
-                        font=('Dosis', 58), bg='#F6EBE7', width=27)
-etiqueta_titulo.grid(row=0, column=0)
+etiqueta_titulo = Label(panel_superior, text='Sistema de Facturación ',
+                        font=('Dosis', 38), bg='#FFEFF0', width=27)
+etiqueta_titulo.grid(row=1, column=0)
+
+# etiqueta nombre
+
+
+etiqueta_nombre = Label(panel_superior, text='Repostería artesanal Naomi',
+                        font=('Dosis', 58), bg='#FFEFF0', width=27)
+etiqueta_nombre.grid(row=0, column=0)
+
 
 # panel izquierdo
-panel_izquierdo = Frame(aplicacion, bd=1, relief=FLAT)
+panel_izquierdo = Frame(aplicacion, bd=1, relief=FLAT,bg='#FACAEE')
 panel_izquierdo.pack(side=LEFT)
 
 # panel costos
-panel_costos = Frame(panel_izquierdo, bd=1, relief=FLAT, bg='azure4', padx=50)
+panel_costos = Frame(panel_izquierdo, bd=1, relief=FLAT, bg='#FACAEE', padx=50)
 panel_costos.pack(side=BOTTOM)
 
 # panel comidas
-panel_tortas = LabelFrame(panel_izquierdo, text='Tortas', font=('Dosis', 19, 'bold'),
-                           bd=1, relief=FLAT, fg='azure4')
+panel_tortas = LabelFrame(panel_izquierdo, text='Tortas', font=('Dosis', 19),
+                           bd=1, relief=FLAT)
 panel_tortas.pack(side=LEFT)
 
 # panel bebidas
-panel_cupcakes_alfajores = LabelFrame(panel_izquierdo, text='Cupcakes/Alfajores', font=('Dosis', 19, 'bold'),
-                           bd=1, relief=FLAT, fg='azure4')
+panel_cupcakes_alfajores = LabelFrame(panel_izquierdo, text='Cupcakes/Alfajores', font=('Dosis', 19),
+                           bd=1, relief=FLAT)
 panel_cupcakes_alfajores.pack(side=LEFT)
 
 # panel postres
-panel_masas = LabelFrame(panel_izquierdo, text='Variedad de Masas', font=('Dosis', 19, 'bold'),
-                           bd=1, relief=FLAT, fg='azure4')
+panel_masas = LabelFrame(panel_izquierdo, text='Variedad de Masas', font=('Dosis', 19),
+                           bd=1, relief=FLAT)
 panel_masas.pack(side=LEFT)
 
 # panel derecha
 panel_derecha = Frame(aplicacion, bd=1, relief=FLAT)
 panel_derecha.pack(side=RIGHT)
 
-# panel calculadora
-# panel_calculadora = Frame(panel_derecha, bd=1, relief=FLAT, bg='burlywood')
-# panel_calculadora.pack()
-
 # panel recibo
-panel_recibo = Frame(panel_derecha, bd=1, relief=FLAT, bg='burlywood')
+panel_recibo = Frame(panel_derecha, bd=1, relief=FLAT, bg='#FACAEE')
 panel_recibo.pack()
 
 # panel botones
-panel_botones = Frame(panel_derecha, bd=1, relief=FLAT, bg='burlywood')
+panel_botones = Frame(panel_derecha, bd=1, relief=FLAT, bg='#FACAEE')
 panel_botones.pack()
 
 # lista de productos
@@ -366,8 +372,7 @@ var_total = StringVar()
 etiqueta_costo_torta = Label(panel_costos,
                               text='Costo Tortas',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
+                              bg='#FACAEE')
 etiqueta_costo_torta.grid(row=0, column=0)
 
 texto_costo_comida = Entry(panel_costos,
@@ -381,8 +386,7 @@ texto_costo_comida.grid(row=0, column=1, padx=41)
 etiqueta_costo_cupcakes = Label(panel_costos,
                               text='Costo Cupcakes/Alf',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
+                              bg='#FACAEE',)
 etiqueta_costo_cupcakes.grid(row=1, column=0)
 
 texto_costo_bebida = Entry(panel_costos,
@@ -393,26 +397,24 @@ texto_costo_bebida = Entry(panel_costos,
                            textvariable=var_costo_cupcakes)
 texto_costo_bebida.grid(row=1, column=1, padx=41)
 
-etiqueta_costo_postres = Label(panel_costos,
+etiqueta_costo_masas = Label(panel_costos,
                               text='Costo Masas',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
-etiqueta_costo_postres.grid(row=2, column=0)
+                              bg='#FACAEE',)
+etiqueta_costo_masas.grid(row=2, column=0)
 
-texto_costo_postres = Entry(panel_costos,
+texto_costo_masas = Entry(panel_costos,
                            font=('Dosis', 12, 'bold'),
                            bd=1,
                            width=10,
                            state='readonly',
                            textvariable=var_costo_masas)
-texto_costo_postres.grid(row=2, column=1, padx=41)
+texto_costo_masas.grid(row=2, column=1, padx=41)
 
 etiqueta_subtotal = Label(panel_costos,
                               text='Subtotal (Efectivo)',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
+                              bg='#FACAEE',)
 etiqueta_subtotal.grid(row=0, column=2)
 
 texto_subtotal = Entry(panel_costos,
@@ -426,8 +428,7 @@ texto_subtotal.grid(row=0, column=3, padx=41)
 etiqueta_impuestos = Label(panel_costos,
                               text='Recargo (Tarjeta 10%)',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
+                              bg='#FACAEE')
 etiqueta_impuestos.grid(row=1, column=2)
 
 texto_impuestos = Entry(panel_costos,
@@ -441,8 +442,8 @@ texto_impuestos.grid(row=1, column=3, padx=41)
 etiqueta_total = Label(panel_costos,
                               text='Total (Tarjeta)',
                               font=('Dosis', 12, 'bold'),
-                              bg='azure4',
-                              fg='white')
+                              bg='#FACAEE',
+                              )
 etiqueta_total.grid(row=2, column=2)
 
 texto_total = Entry(panel_costos,
@@ -462,8 +463,7 @@ for boton in botones:
     boton = Button(panel_botones,
                    text=boton.title(),
                    font=('Dosis', 14, 'bold'),
-                   fg='white',
-                   bg='azure4',
+                   bg='#EB80FA',
                    bd=1,
                    width=9)
 
@@ -486,62 +486,6 @@ texto_recibo = Text(panel_recibo,
                     height=10)
 texto_recibo.grid(row=0,
                   column=0)
-
-# # calculadora
-# visor_calculadora = Entry(panel_calculadora,
-#                           font=('Dosis', 16, 'bold'),
-#                           width=32,
-#                           bd=1)
-# visor_calculadora.grid(row=0,
-#                        column=0,
-#                        columnspan=4)
-
-# botones_calculadora = ['7', '8', '9', '+', '4', '5', '6', '-',
-#                        '1', '2', '3', 'x', 'R', 'B', '0', '/']
-# botones_guardados = []
-
-# fila = 1
-# columna = 0
-# for boton in botones_calculadora:
-#     boton = Button(panel_calculadora,
-#                    text=boton.title(),
-#                    font=('Dosis', 16, 'bold'),
-#                    fg='white',
-#                    bg='azure4',
-#                    bd=1,
-#                    width=8)
-
-#     botones_guardados.append(boton)
-
-#     boton.grid(row=fila,
-#                column=columna)
-
-#     if columna == 3:
-#         fila += 1
-
-#     columna += 1
-
-#     if columna == 4:
-#         columna = 0
-
-# botones_guardados[0].config(command=lambda : click_boton('7'))
-# botones_guardados[1].config(command=lambda : click_boton('8'))
-# botones_guardados[2].config(command=lambda : click_boton('9'))
-# botones_guardados[3].config(command=lambda : click_boton('+'))
-# botones_guardados[4].config(command=lambda : click_boton('4'))
-# botones_guardados[5].config(command=lambda : click_boton('5'))
-# botones_guardados[6].config(command=lambda : click_boton('6'))
-# botones_guardados[7].config(command=lambda : click_boton('-'))
-# botones_guardados[8].config(command=lambda : click_boton('1'))
-# botones_guardados[9].config(command=lambda : click_boton('2'))
-# botones_guardados[10].config(command=lambda : click_boton('3'))
-# botones_guardados[11].config(command=lambda : click_boton('*'))
-# botones_guardados[12].config(command=obtener_resultado)
-# botones_guardados[13].config(command=borrar)
-# botones_guardados[14].config(command=lambda : click_boton('0'))
-# botones_guardados[15].config(command=lambda : click_boton('/'))
-
-
 
 # evitar que la pantalla se cierre
 aplicacion.mainloop()
