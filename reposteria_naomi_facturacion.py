@@ -134,7 +134,7 @@ def recibo():
     texto_recibo.insert(END, f' Recargo ( 10%): \t\t\t{var_recargo_tarjeta.get()}\n')
     texto_recibo.insert(END, f' Total (Tarjeta): \t\t\t{var_total.get()}\n')
     texto_recibo.insert(END, f'*' * 47 + '\n')
-    texto_recibo.insert(END, 'Graicas por su compra, lo esperamos pronto :)')
+    texto_recibo.insert(END, 'Gracias por su compra, lo esperamos pronto :)')
 
 
 def guardar():
