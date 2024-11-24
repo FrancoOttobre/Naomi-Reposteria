@@ -1,6 +1,9 @@
 from tkinter import *
+from pathlib import Path
 import random
 import datetime
+from tkinter import font
+
 
 from PIL import ImageTk,Image
 
@@ -11,8 +14,9 @@ precios_tortas = [35000, 28000, 25000 , 40000]
 precios_cupcakes = [800, 900 , 1000, 1100]
 precios_masas = [800 , 650 , 600 , 550 ]
 
-
-
+ruta_base = Path.home()
+ruta_imagen = ruta_base / "Naomi-Reposteria-main" / "fondo-definitivo.png"
+ruta_icon = ruta_base / "Naomi-Reposteria-main" / "icon.ico"
 def click_boton(numero):
     global operador
     operador = operador + numero
@@ -79,14 +83,14 @@ def total():
         p += 1
 
     sub_total = sub_total_tortas + sub_total_cupcakes + sub_total_masas
-    impuestos = sub_total * 0.10
-    total = sub_total + impuestos
+    recargo_tarjeta = sub_total * 0.10
+    total = sub_total + recargo_tarjeta
 
     var_costo_tortas.set(f'$ {round(sub_total_tortas, 2)}')
     var_costo_cupcakes.set(f'$ {round(sub_total_cupcakes, 2)}')
     var_costo_masas.set(f'$ {round(sub_total_masas, 2)}')
     var_subtotal.set(f'$ {round(sub_total, 2)}')
-    var_impuestos.set(f'$ {round(impuestos, 2)}')
+    var_recargo_tarjeta.set(f'$ {round(recargo_tarjeta, 2)}')
     var_total.set(f'$ {round(total, 2)}')
 
 
@@ -127,10 +131,10 @@ def recibo():
     texto_recibo.insert(END, f' Total Masas: \t\t\t{var_costo_masas.get()}\n')
     texto_recibo.insert(END, f'-' * 54 + '\n')
     texto_recibo.insert(END, f' Sub-total (Efectivo): \t\t\t{var_subtotal.get()}\n')
-    texto_recibo.insert(END, f' Recargo ( 10%): \t\t\t{var_impuestos.get()}\n')
+    texto_recibo.insert(END, f' Recargo ( 10%): \t\t\t{var_recargo_tarjeta.get()}\n')
     texto_recibo.insert(END, f' Total (Tarjeta): \t\t\t{var_total.get()}\n')
     texto_recibo.insert(END, f'*' * 47 + '\n')
-    texto_recibo.insert(END, 'Lo esperamos pronto')
+    texto_recibo.insert(END, 'Graicas por su compra, lo esperamos pronto :)')
 
 
 def guardar():
@@ -169,7 +173,7 @@ def resetear():
     var_costo_cupcakes.set('')
     var_costo_masas.set('')
     var_subtotal.set('')
-    var_impuestos.set('')
+    var_recargo_tarjeta.set('')
     var_total.set('')
 
 
@@ -177,7 +181,10 @@ def resetear():
 aplicacion = Tk()
 
 # tamaño de la ventana
-aplicacion.geometry('1248x630+0+0')
+aplicacion.geometry('1300x630+0+0')
+
+# Cambia el ícono de la aplicación
+aplicacion.iconbitmap(ruta_icon)
 
 # evitar maximizar
 aplicacion.resizable(0, 0)
@@ -189,7 +196,7 @@ aplicacion.title("Repostería Artesanal Naomi - Sistema de Facturacion")
 aplicacion.config(bg='#F6EBE7')
 
 #imagen de fondo
-image = PhotoImage(file=r"C:\Users\franc\Desktop\Archivos\Iresm\Algoritmos-y-estructura-de-datos\IEFI\fondo-definitivo.png")
+image = PhotoImage(file=str(ruta_imagen))
 
 background_label = Label(aplicacion, image=image)
 
@@ -200,51 +207,53 @@ panel_superior = Frame(aplicacion, bd=1, relief=FLAT,bg='#FFEFF0')
 panel_superior.pack(side=TOP)
 
 # etiqueta titulo
+
 etiqueta_titulo = Label(panel_superior, text='Sistema de Facturación ',
-                        font=('Dosis', 38), bg='#FFEFF0', width=27)
+                        font=('Georgia', 30), bg='#FFEFF0', width=27)
 etiqueta_titulo.grid(row=1, column=0)
 
 # etiqueta nombre
 
+fuente_cursiva = font.Font(family="Georgia", size=45, slant="italic")
 
 etiqueta_nombre = Label(panel_superior, text='Repostería artesanal Naomi',
-                        font=('Dosis', 58), bg='#FFEFF0', width=27)
+                        font= fuente_cursiva, bg='#FFEFF0', width=27)
 etiqueta_nombre.grid(row=0, column=0)
 
 
 # panel izquierdo
-panel_izquierdo = Frame(aplicacion, bd=1, relief=FLAT,bg='#FACAEE')
-panel_izquierdo.pack(side=LEFT)
+panel_izquierdo = Frame(aplicacion, bd=1, relief=FLAT,bg='#EB80FA')
+panel_izquierdo.pack(side=LEFT, padx=10)
 
 # panel costos
-panel_costos = Frame(panel_izquierdo, bd=1, relief=FLAT, bg='#FACAEE', padx=50)
+panel_costos = Frame(panel_izquierdo, bd=1, relief=FLAT, bg='#EB80FA')
 panel_costos.pack(side=BOTTOM)
 
-# panel comidas
-panel_tortas = LabelFrame(panel_izquierdo, text='Tortas', font=('Dosis', 19),
-                           bd=1, relief=FLAT)
+# panel tortas
+panel_tortas = LabelFrame(panel_izquierdo, text='Tortas', font=('Georgia', 19, 'bold', 'italic'),
+                           bd=1,bg='#FACAEE', relief=FLAT)
 panel_tortas.pack(side=LEFT)
 
-# panel bebidas
-panel_cupcakes_alfajores = LabelFrame(panel_izquierdo, text='Cupcakes/Alfajores', font=('Dosis', 19),
-                           bd=1, relief=FLAT)
+# panel cupcakes/alfajores
+panel_cupcakes_alfajores = LabelFrame(panel_izquierdo, text='Cupcakes/Alfajores', font=('Georgia', 19, 'bold', 'italic'),
+                           bd=1, bg='#FACAEE',relief=FLAT)
 panel_cupcakes_alfajores.pack(side=LEFT)
 
-# panel postres
-panel_masas = LabelFrame(panel_izquierdo, text='Variedad de Masas', font=('Dosis', 19),
-                           bd=1, relief=FLAT)
+# panel masas
+panel_masas = LabelFrame(panel_izquierdo, text='Variedad de Masas', font=('Georgia', 19, 'bold', 'italic'),
+                           bd=1, bg='#FACAEE', relief=FLAT)
 panel_masas.pack(side=LEFT)
 
 # panel derecha
-panel_derecha = Frame(aplicacion, bd=1, relief=FLAT)
-panel_derecha.pack(side=RIGHT)
+panel_derecha = Frame(aplicacion, bd=1, bg='#FFEFF0', relief=FLAT)
+panel_derecha.pack(side=RIGHT,padx=5)
 
 # panel recibo
-panel_recibo = Frame(panel_derecha, bd=1, relief=FLAT, bg='#FACAEE')
+panel_recibo = Frame(panel_derecha, bd=1, relief=FLAT, bg='#EB80FA')
 panel_recibo.pack()
 
 # panel botones
-panel_botones = Frame(panel_derecha, bd=1, relief=FLAT, bg='#FACAEE')
+panel_botones = Frame(panel_derecha, bd=1, relief=FLAT)
 panel_botones.pack()
 
 # lista de productos
@@ -263,9 +272,10 @@ for torta in lista_tortas:
     variables_torta[contador] = IntVar()
     torta = Checkbutton(panel_tortas,
                          text=torta.title(),
-                         font=('Dosis', 19, 'bold',),
+                         font=('Georgia', 19,),
                          onvalue=1,
                          offvalue=0,
+                         bg='#FACAEE',
                          variable=variables_torta[contador],
                          command=revisar_check)
 
@@ -279,7 +289,7 @@ for torta in lista_tortas:
     texto_torta[contador] = StringVar()
     texto_torta[contador].set('0')
     cuadros_torta[contador] = Entry(panel_tortas,
-                                     font=('Dosis', 18, 'bold'),
+                                     font=('Georgia', 18),
                                      bd=1,
                                      width=6,
                                      state=DISABLED,
@@ -288,7 +298,7 @@ for torta in lista_tortas:
                                   column=1)
     contador += 1
 
-# generar items bebida
+# generar items cupackes/Alf
 variables_cupcakes = []
 cuadros_cupcakes = []
 texto_cupcakes = []
@@ -299,8 +309,9 @@ for cupcake in lista_cupcakes_alfajores:
     variables_cupcakes[contador] = IntVar()
     cupcake = Checkbutton(panel_cupcakes_alfajores,
                          text=cupcake.title(),
-                         font=('Dosis', 19, 'bold',),
+                         font=('Georgia', 19),
                          onvalue=1,
+                         bg='#FACAEE',
                          offvalue=0,
                          variable=variables_cupcakes[contador],
                          command=revisar_check)
@@ -314,7 +325,7 @@ for cupcake in lista_cupcakes_alfajores:
     texto_cupcakes[contador] = StringVar()
     texto_cupcakes[contador].set('0')
     cuadros_cupcakes[contador] = Entry(panel_cupcakes_alfajores,
-                                     font=('Dosis', 18, 'bold'),
+                                     font=('Georgia', 18),
                                      bd=1,
                                      width=6,
                                      state=DISABLED,
@@ -324,7 +335,7 @@ for cupcake in lista_cupcakes_alfajores:
 
     contador += 1
 
-# generar items postres
+# generar items masas
 variables_masas = []
 cuadros_masas = []
 texto_masas = []
@@ -335,9 +346,10 @@ for masa in lista_masas:
     variables_masas[contador] = IntVar()
     masa = Checkbutton(panel_masas,
                           text=masa.title(),
-                          font=('Dosis', 19, 'bold'),
+                          font=('Georgia', 19),
                           onvalue=1,
                           offvalue=0,
+                          bg='#FACAEE',
                           variable=variables_masas[contador],
                          command=revisar_check)
     masa.grid(row=contador,
@@ -350,7 +362,7 @@ for masa in lista_masas:
     texto_masas[contador] = StringVar()
     texto_masas[contador].set('0')
     cuadros_masas[contador] = Entry(panel_masas,
-                                      font=('Dosis', 18, 'bold'),
+                                      font=('Georgia', 18,),
                                       bd=1,
                                       width=6,
                                       state=DISABLED,
@@ -365,42 +377,42 @@ var_costo_tortas = StringVar()
 var_costo_cupcakes = StringVar()
 var_costo_masas = StringVar()
 var_subtotal = StringVar()
-var_impuestos = StringVar()
+var_recargo_tarjeta = StringVar()
 var_total = StringVar()
 
 # etiquetas de costo y campos de entrada
 etiqueta_costo_torta = Label(panel_costos,
                               text='Costo Tortas',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE')
+                              bg='#EB80FA')
 etiqueta_costo_torta.grid(row=0, column=0)
 
-texto_costo_comida = Entry(panel_costos,
+texto_costo_torta = Entry(panel_costos,
                            font=('Dosis', 12, 'bold'),
                            bd=1,
                            width=10,
                            state='readonly',
                            textvariable=var_costo_tortas)
-texto_costo_comida.grid(row=0, column=1, padx=41)
+texto_costo_torta.grid(row=0, column=1, padx=41)
 
 etiqueta_costo_cupcakes = Label(panel_costos,
                               text='Costo Cupcakes/Alf',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE',)
+                              bg='#EB80FA',)
 etiqueta_costo_cupcakes.grid(row=1, column=0)
 
-texto_costo_bebida = Entry(panel_costos,
+texto_costo_cupcakes = Entry(panel_costos,
                            font=('Dosis', 12, 'bold'),
                            bd=1,
                            width=10,
                            state='readonly',
                            textvariable=var_costo_cupcakes)
-texto_costo_bebida.grid(row=1, column=1, padx=41)
+texto_costo_cupcakes.grid(row=1, column=1, padx=41)
 
 etiqueta_costo_masas = Label(panel_costos,
                               text='Costo Masas',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE',)
+                              bg='#EB80FA',)
 etiqueta_costo_masas.grid(row=2, column=0)
 
 texto_costo_masas = Entry(panel_costos,
@@ -414,7 +426,7 @@ texto_costo_masas.grid(row=2, column=1, padx=41)
 etiqueta_subtotal = Label(panel_costos,
                               text='Subtotal (Efectivo)',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE',)
+                              bg='#EB80FA',)
 etiqueta_subtotal.grid(row=0, column=2)
 
 texto_subtotal = Entry(panel_costos,
@@ -425,26 +437,26 @@ texto_subtotal = Entry(panel_costos,
                            textvariable=var_subtotal)
 texto_subtotal.grid(row=0, column=3, padx=41)
 
-etiqueta_impuestos = Label(panel_costos,
+etiqueta_recargo = Label(panel_costos,
                               text='Recargo (Tarjeta 10%)',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE')
-etiqueta_impuestos.grid(row=1, column=2)
+                              bg='#EB80FA')
+etiqueta_recargo.grid(row=1, column=2)
 
-texto_impuestos = Entry(panel_costos,
+texto_recargo = Entry(panel_costos,
                            font=('Dosis', 12, 'bold'),
                            bd=1,
                            width=10,
                            state='readonly',
-                           textvariable=var_impuestos)
-texto_impuestos.grid(row=1, column=3, padx=41)
+                           textvariable= var_recargo_tarjeta)
+texto_recargo.grid(row=1, column=3, padx=41)
 
-etiqueta_total = Label(panel_costos,
+etiqueta_total_tarjeta = Label(panel_costos,
                               text='Total (Tarjeta)',
                               font=('Dosis', 12, 'bold'),
-                              bg='#FACAEE',
+                              bg='#EB80FA',
                               )
-etiqueta_total.grid(row=2, column=2)
+etiqueta_total_tarjeta.grid(row=2, column=2)
 
 texto_total = Entry(panel_costos,
                            font=('Dosis', 12, 'bold'),
@@ -463,7 +475,7 @@ for boton in botones:
     boton = Button(panel_botones,
                    text=boton.title(),
                    font=('Dosis', 14, 'bold'),
-                   bg='#EB80FA',
+                   bg='#FFAFC7',
                    bd=1,
                    width=9)
 
