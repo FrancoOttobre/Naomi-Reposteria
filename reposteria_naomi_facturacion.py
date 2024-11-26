@@ -10,18 +10,21 @@ from PIL import ImageTk,Image
 from tkinter import filedialog, messagebox
 
 
+import sys
+PATH = sys.executable
+
+print(PATH)
 operador = ''
 precios_tortas = [35000, 28000, 25000 , 40000]
 precios_cupcakes = [800, 900 , 1000, 1100]
 precios_masas = [800 , 650 , 600 , 550 ]
 
 
-ruta_base = os.getcwd()
+ruta_base = os.path.dirname(__file__)
 
-print("Ruta base: ", ruta_base)
+
 ruta_imagen = ruta_base + "/fondo-definitivo.png"
 ruta_icon = ruta_base +"\\icon.ico"
-
 
 
 def click_boton(numero):
