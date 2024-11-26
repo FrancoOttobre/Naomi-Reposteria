@@ -2,21 +2,28 @@ from tkinter import *
 from pathlib import Path
 import random
 import datetime
+import os
 from tkinter import font
-
 
 from PIL import ImageTk,Image
 
 from tkinter import filedialog, messagebox
+
 
 operador = ''
 precios_tortas = [35000, 28000, 25000 , 40000]
 precios_cupcakes = [800, 900 , 1000, 1100]
 precios_masas = [800 , 650 , 600 , 550 ]
 
-ruta_base = Path.home()
-ruta_imagen = ruta_base / "Naomi-Reposteria-main" / "fondo-definitivo.png"
-ruta_icon = ruta_base / "Naomi-Reposteria-main" / "icon.ico"
+
+ruta_base = os.getcwd()
+
+print("Ruta base: ", ruta_base)
+ruta_imagen = ruta_base + "/fondo-definitivo.png"
+ruta_icon = ruta_base +"\\icon.ico"
+
+
+
 def click_boton(numero):
     global operador
     operador = operador + numero
@@ -185,6 +192,8 @@ aplicacion.geometry('1300x630+0+0')
 
 # Cambia el ícono de la aplicación
 aplicacion.iconbitmap(ruta_icon)
+imagen_icono = Image.open(ruta_icon)
+icono = ImageTk.PhotoImage(imagen_icono)
 
 # evitar maximizar
 aplicacion.resizable(0, 0)
