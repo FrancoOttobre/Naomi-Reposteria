@@ -14,7 +14,6 @@ import sys
 PATH = sys.executable
 
 print(PATH)
-operador = ''
 precios_tortas = [35000, 28000, 25000 , 40000]
 precios_cupcakes = [800, 900 , 1000, 1100]
 precios_masas = [800 , 650 , 600 , 550 ]
@@ -26,14 +25,6 @@ ruta_base = os.path.dirname(__file__)
 ruta_imagen = ruta_base + "/fondo-definitivo.png"
 ruta_icon = ruta_base +"\\icon.ico"
 
-
-def click_boton(numero):
-    global operador
-    operador = operador + numero
-
-def borrar():
-    global operador
-    operador = ''
 
 def revisar_check():
     x = 0
